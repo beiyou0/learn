@@ -1,3 +1,5 @@
+package org.learn.algorithm;
+
 /**
  * Created by qianqian on 04/01/2018.
  */

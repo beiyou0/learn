@@ -1,3 +1,5 @@
+package org.learn.algorithm;
+
 /**
  * Created by qianqian on 04/01/2018.
  */
@@ -130,29 +132,29 @@ public class Fibonacci {
         System.out.println("x power n is: " + result1);
 
 
-        System.out.println("********** Fibonacci in Naive Recurse Method **********");
+        System.out.println("********** org.learn.algorithm.Fibonacci in Naive Recurse Method **********");
         long startTime = System.currentTimeMillis();
         int n = 40;
         long fib = fibRecurNaive(n);
         long endTime = System.currentTimeMillis();
-        System.out.printf("Fibonacci num of %d is %d", n, fib);
+        System.out.printf("org.learn.algorithm.Fibonacci num of %d is %d", n, fib);
         System.out.println("\nRunning Time is " + (endTime - startTime) + "ms");
 
-        System.out.println("********** Fibonacci in Bottom-Up Method **********");
+        System.out.println("********** org.learn.algorithm.Fibonacci in Bottom-Up Method **********");
         long startTime_2 = System.currentTimeMillis();
         int n_2 = 60;
         long fib_2 = fibBottomUp(n_2);
         long endTime_2 = System.currentTimeMillis();
-        System.out.printf("Fibonacci num of %d is %d", n_2, fib_2);
+        System.out.printf("org.learn.algorithm.Fibonacci num of %d is %d", n_2, fib_2);
         System.out.println("\nRunning Time is " + (endTime_2 - startTime_2) + "ms");
 
 
-        System.out.println("********** Fibonacci in Recurse Squaring Method **********");
+        System.out.println("********** org.learn.algorithm.Fibonacci in Recurse Squaring Method **********");
         long startTime_3 = System.currentTimeMillis();
         int n_3 = 60;
         long fib_3 = fibRecurSquare(n_3);
         long endTime_3 = System.currentTimeMillis();
-        System.out.printf("Fibonacci num of %d is %d", n_3, fib_3);
+        System.out.printf("org.learn.algorithm.Fibonacci num of %d is %d", n_3, fib_3);
         System.out.println("\nRunning Time is " + (endTime_3 - startTime_3) + "ms");
 
     }
