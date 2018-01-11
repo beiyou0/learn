@@ -15,8 +15,8 @@ import java.util.List;
  */
 public class LogTopic {
     String topicId = "topic-1";
-    String topicName = "aep";
-    String logFolder = "/home/mqmswg/work/log/aep";
+    String topicName = "forTest";
+    String logFolder = "/Users/qianqian/work/log/forTest";
     long readPeriod = 30;
     ArrayList<FileMonitor> fileMonitorList;
 

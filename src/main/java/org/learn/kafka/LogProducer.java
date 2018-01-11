@@ -27,9 +27,9 @@ import java.util.regex.Pattern;
 public class LogProducer implements Runnable{
     private String envTag = "Test";
     private String hostname = "qianqian-mac";
-    private String logFolder = "/Users/qianqian/work/log/aep";
+    private String logFolder = "/Users/qianqian/work/log/forTest";
     private String bootstrap_servers = "localhost:9092,localhost:9093,localhost:9094";
-    private String topic = "aep";
+    private String topic = "forTest";
     private KafkaProducer<Long, String> producer;
     private ArrayList<FileMonitor> fmList;
     private long readPeriod;
