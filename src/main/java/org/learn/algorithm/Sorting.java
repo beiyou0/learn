@@ -168,6 +168,21 @@ public class Sorting {
         }
     }
 
+    public static void shellSort(int[] a) {
+        // one kind of improved insertion sort
+        int gap, i, j;
+        for (gap = a.length/2; gap > 0; gap = gap/2) {
+            // begin from the gap-th element to do the insertion sort in its own group this round
+            for (i = gap; i < a.length; i++) {
+                int key = a[i];
+                for (j = i - gap; (j >= 0) && (a[j] > key); j = j - gap) {
+                    a[j + gap] = a[j];
+                }
+                a[j + gap] = key;
+            }
+        }
+    }
+
 
     public static void main(String[] args) {
         int[] a = {4, 2, 9, 6, 3, 7, 0, -5, 1, 1};
@@ -177,8 +192,8 @@ public class Sorting {
 //        quickSort(a, 0, a.length - 1);
 //        randomQuickSort(a, 0, a.length -1);
 //        heapSort(a);
-        bubbleSort(a);
-
+//        bubbleSort(a);
+        shellSort(a);
         for(int i = 0; i < a.length; i++) {
             System.out.print(a[i] + " ");
         }
