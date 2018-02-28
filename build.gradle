@@ -24,3 +24,31 @@ dependencies {
 
 
 task wrapper(type: Wrapper) { gradleVersion = '3.5' }
+
+task sourceJar(type: Jar, dependsOn: compileJava) {
+    from sourceSets.main.output.classesDir
+    exclude 'LogSvr.class'
+    exclude 'LogView.class'
+    manifest {
+        attributes 'Main-Class': 'org.learn.kafka.LogProducer'
+        attributes 'Class-Path': './ ' + configurations.runtime.collect {'lib/' + it.getName()}.join(' ')
+    }
+
+    destinationDir = file('build/libs/logproducer')
+}
+
+task copyJars(type: Copy) {
+    from configurations.runtime
+    destinationDir = file('build/libs/logproducer/lib')
+}
+
+task copyConf(type: Copy, dependsOn: processResources) {
+    from sourceSets.main.output.resourcesDir
+    destinationDir = file('build/libs/logproducer')
+}
+
+task zipPJ(type: Zip, dependsOn:[clean, sourceJar, copyJars, copyConf]) {
+    archiveName = 'logproducer.zip'
+    from 'build/libs/logproducer'
+    destinationDir = file('build/libs')
+}

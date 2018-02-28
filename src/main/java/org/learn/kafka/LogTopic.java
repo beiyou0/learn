@@ -15,8 +15,8 @@ import java.util.List;
  */
 public class LogTopic {
     String topicId = "topic-1";
-    String topicName = "forTest";
-    String logFolder = "/Users/qianqian/work/log/forTest";
+    String topicName = "test";
+    String logFolder = "/home/mqmswg/work/log/test.aep";
     long readPeriod = 30;
     ArrayList<FileMonitor> fileMonitorList;
 
@@ -89,7 +89,6 @@ public class LogTopic {
             Element topic = (Element) it.next();
             List<Attribute> topicAttrs = topic.attributes();
             for (Attribute attr : topicAttrs) {
-                System.out.println("attribute: " + attr.getName() + " property: " + attr.getValue());
                 if (attr.getName().equals("id"))
                     logTopic.setTopicId(attr.getValue());
                 if (attr.getName().equals("name"))

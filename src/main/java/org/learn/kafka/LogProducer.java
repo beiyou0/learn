@@ -6,6 +6,8 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -25,11 +27,12 @@ import java.util.regex.Pattern;
  * Created by qianqian on 10/01/2018.
  */
 public class LogProducer implements Runnable{
-    private String envTag = "Test";
-    private String hostname = "qianqian-mac";
-    private String logFolder = "/Users/qianqian/work/log/forTest";
+    private static final Logger LOG = LoggerFactory.getLogger(LogProducer.class);
+    private String envTag = "FVT";
+    private String hostname = "sbybz2112.sby.ibm.com";
+    private String logFolder = "/home/mqmswg/work/log/test.aep";
     private String bootstrap_servers = "localhost:9092,localhost:9093,localhost:9094";
-    private String topic = "forTest";
+    private String topic = "test";
     private KafkaProducer<Long, String> producer;
     private ArrayList<FileMonitor> fmList;
     private long readPeriod;
@@ -80,7 +83,7 @@ public class LogProducer implements Runnable{
             Date today = new Date();
             String todayStr = new SimpleDateFormat("yyyyMMdd").format(today);
 
-            if(fmList != null) {
+            if (fmList != null) {
                 for (FileMonitor fm : fmList) {
                     long lastTimeFileSize = fm.getLastTimeFileSize();
                     File f = new File(logFolder + "/" + fm.getName() + "." + dateStrFlag);
@@ -98,13 +101,12 @@ public class LogProducer implements Runnable{
                                     "\"_sales_org\": \"" + getMatcher("SalesOrg: [0-9]*", line).replace("SalesOrg:", "").trim() + "\", " +
                                     "\"_order_id\": \"" + getMatcher("Order: [0-9]*", line).replace("Order:", "").trim() + "\", " +
                                     "\"_file\": \"" + f.getName() + "\"}";
-                            System.out.println(jsonGELF);
                             ProducerRecord<Long, String> record = new ProducerRecord<>(topic, timeIndex, jsonGELF);
                             RecordMetadata metadata = producer.send(record).get();
 
                             long elapsedTime = System.currentTimeMillis() - timeIndex;
-                            System.out.printf("Send record(key=%s, value=%s) metadata(partition=%d, offset=%d) time=%d\n", record.key(),
-                                    record.value(), metadata.partition(), metadata.offset(), elapsedTime);
+                            LOG.info(String.format("Send to topic=%s record(key=%s, value=%s) metadata(partition=%d, offset=%d) time=%d", record.topic(), record.key(),
+                                    record.value(), metadata.partition(), metadata.offset(), elapsedTime));
                         }
                         if (todayStr.equals(dateStrFlag)) {  // in one day
                             lastTimeFileSize = randomFile.length();
@@ -115,7 +117,7 @@ public class LogProducer implements Runnable{
                             fm.setLastTimeFileSize(lastTimeFileSize);
                             dateStrFlag = todayStr;
                         }
-                        System.out.println("******** File Size now: " + lastTimeFileSize);
+                        LOG.info(String.format("File is read to %d bytes size.", lastTimeFileSize));
                     }
                 }
             }
@@ -134,13 +136,13 @@ public class LogProducer implements Runnable{
     public static void main(String[] args) {
         try {
             Properties prop = new Properties();
-            FileInputStream in = new FileInputStream("src/main/resources/config.properties");
+            FileInputStream in = new FileInputStream(LogProducer.class.getResource("/config.properties").getFile());
             prop.load(in);
             in.close();
             String kafka_server = prop.getProperty("kafka_server");
             String env = prop.getProperty("esb_env");
 
-            ArrayList<LogTopic> logTopicList = LogTopic.logTopicXMLParser("src/main/resources/logtopic.xml");
+            ArrayList<LogTopic> logTopicList = LogTopic.logTopicXMLParser(LogProducer.class.getResource("/logtopic.xml").getFile());
 
             ArrayList<LogProducer> logProducerList = new ArrayList<>();
             for (LogTopic ltTmp : logTopicList) {
