@@ -191,9 +191,9 @@ public class Sorting {
 //        mergeSort(a, 0, a.length -1);
 //        quickSort(a, 0, a.length - 1);
 //        randomQuickSort(a, 0, a.length -1);
-//        heapSort(a);
+        heapSort(a);
 //        bubbleSort(a);
-        shellSort(a);
+//        shellSort(a);
         for(int i = 0; i < a.length; i++) {
             System.out.print(a[i] + " ");
         }
