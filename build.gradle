@@ -20,6 +20,9 @@ dependencies {
     compile "org.slf4j:slf4j-api:$SLF4J_VERSION"
     compile group: 'org.apache.kafka', name: 'kafka-clients', version: '1.0.0'
     compile group: 'dom4j', name: 'dom4j', version: '1.6.1'
+    // https://mvnrepository.com/artifact/com.jcraft/jsch
+    compile group: 'com.jcraft', name: 'jsch', version: '0.1.55'
+
 }
 
 
